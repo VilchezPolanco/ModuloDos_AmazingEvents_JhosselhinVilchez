@@ -1,0 +1,40 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+main{
+    min-height: 85vh;
+}
+.colorUno{
+    background-color: #F7F4FB !important;
+    color: #8e48da !important;
+}
+.colorDos{
+    background-color: #8e48da !important;
+    color: #F7F4FB !important;
+}
+.colorTres{
+    background-color: #2A3BCF !important;
+}
+.logo{
+    width: 80px !important;
+}
+.img-corousel{
+    height: 25vh;
+    object-fit: cover;
+}
+.cardImg{
+    height: 12.2rem;
+}
+.description{
+    height: 6rem;
+}
+th , td{
+    width: 35rem;
+    height: 2rem;
+}
+footer .redSocial{
+    width: 40px;
+    border-radius: 10px;
+}
