@@ -9,17 +9,17 @@ function createCard(obj){
                 <p class="card-text text-center description">${obj.description}</p>
                 <div class="d-flex justify-content-around w-100">
                     <p>$${obj.price}</p>
-                    <a href="./assets/pages/details.html" class="btn btn-primary">Details</a>
+                    <a href="../pages/details.html" class="btn btn-primary">Details</a>
                 </div>
             </div>
         </div>
      `
 }
 
-function filterPastEvents(array){
+function filterPastEvents(obj){
     let pastEvents = []
-    for(const event of array.events){
-        if(event.date < array.currentDate){
+    for(const event of obj.events){
+        if(event.date < obj.currentDate){
             pastEvents.push(event)
         }
     }
@@ -39,4 +39,4 @@ function printCard(template, contenedorCard){
     contenedorCard.innerHTML = template
  }
 
- printCard(createTemplate(dataFilter), cardPastEvent)
+printCard(createTemplate(dataFilter), cardPastEvent)
