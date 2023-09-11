@@ -1,42 +1,91 @@
-const cardPastEvent = document.getElementById("cardPastEvent");
+const $cardPast = document.getElementById("cardPastEvent");
+const $checkbox = document.getElementById("contenedor-checkbox");
+const $inputSearch = document.getElementById("inputSearch");
 
-function createCard(obj){
-    return `
-        <div class="card colorUno" style="width: 18rem;">
-            <img src="${obj.image}" class="card-img-top p-2 cardImg" alt="food fair">
-            <div class="card-body d-flex flex-column align-items-center">
-                <h5 class="card-title">${obj.name}</h5>
-                <p class="card-text text-center description">${obj.description}</p>
-                <div class="d-flex justify-content-around w-100">
-                    <p>$${obj.price}</p>
-                    <a href="../pages/details.html" class="btn btn-primary">Details</a>
-                </div>
-            </div>
-        </div>
-     `
-}
+// CODIGO DE TARJETAS DINAMICAS
 
-function filterPastEvents(obj){
-    let pastEvents = []
-    for(const event of obj.events){
-        if(event.date < obj.currentDate){
-            pastEvents.push(event)
+    function filterPastEvents(obj){
+        let pastEvents = []
+        for(const event of obj.events){
+            if(event.date < obj.currentDate){
+                pastEvents.push(event)
+            }
         }
+        return pastEvents;
     }
-    return pastEvents;
-}
-const dataFilter = filterPastEvents(data)
+    const dataFilter = filterPastEvents(data)
 
-function createTemplate(arrayEvents){
-    let template = ""
-    for(const event of arrayEvents){
-        template += createCard(event)
+    function createCard(obj){
+        return obj.reduce( ( acc, act ) =>{
+            return acc += `
+                <div class="card colorUno" style="width: 18rem;">
+                    <img src="${act.image}" class="card-img-top p-2 cardImg" alt="food fair">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">${act.name}</h5>
+                        <p class="card-text text-center description">${act.description}</p>
+                        <div class="d-flex justify-content-around w-100">
+                            <p>$${act.price}</p>
+                            <a href="./details.html?_id=${act._id}" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                </div>
+            `
+        }, '')
     }
-    return template
-}
+    $cardPast.innerHTML = createCard(dataFilter)
 
-function printCard(template, contenedorCard){
-    contenedorCard.innerHTML = template
- }
 
-printCard(createTemplate(dataFilter), cardPastEvent)
+/* FUNCIONALIDAD DE LAS CATEGORIAS Y EL BUSCADOR */
+
+    function createCheckbox(obj) {
+        return `
+            <div class="form-check m-2">
+                <input class="form-check-input" type="checkbox" value="${obj}" id="${obj}">
+                <label class="form-check-label" for="${obj}">
+                    ${obj}
+                </label>
+            </div>
+        `
+    }
+
+    /*Filtro por categoria checkbox */
+    const category = data.events.map (obj => obj.category) //me devuelve un array con las categorias
+    const setInfo = new Set (category)  //no me da valores duplicados y me devuelve el primero
+    const arrayCategory = Array.from (setInfo) //lo vuelve a hacer array
+
+    //crea e imprime template category
+    function createTemplateCategory(array){
+        let template = array.map((categoria) => createCheckbox(categoria)).join(``);
+        return template;
+    }
+    const TemplateCategory = createTemplateCategory(arrayCategory);
+    $checkbox.innerHTML = TemplateCategory;
+
+/* SEARCH */
+
+    /* filtra lo que viene del input */
+    function filterSearch(array, inputValue){
+        return array.filter( obj => obj.name.toLowerCase().includes(inputValue.toLowerCase()))
+    }
+
+    /*filtra si arrayCategory tiene obj guardados */
+    function filtercheckbox( array, arrayCategory ) {
+        if( category.length == 0 ) return array
+        return array.filter( obj => arrayCategory.includes( obj.category ))
+    }
+
+    /*escuchador esperando el evento change del checkbox */
+    $checkbox.addEventListener( 'change', () => { filterCheckboxSearch ()
+    })
+
+    /*escuchador esperando el evento input del buscador */
+    $inputSearch.addEventListener ('input', () => { filterCheckboxSearch ()
+    })
+
+      function filterCheckboxSearch(){
+        const checkboxChange = Array.from (document.querySelectorAll (`input[type="checkbox"]:checked`)).map( check => check.value)
+        let runFilterSearch = filterSearch(dataFilter, $inputSearch.value);
+        let runFiltercheckbox = filtercheckbox(runFilterSearch, checkboxChange);
+        $cardPast.innerHTML = createCard(runFiltercheckbox)
+    }
+    

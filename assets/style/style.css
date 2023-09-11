@@ -34,6 +34,27 @@ th , td{
     width: 35rem;
     height: 2rem;
 }
+.but_ton{
+    border: 1px solid #8e48da !important;
+    color: #8e48da !important;
+    width: 3rem;
+}
+.but_ton:hover{
+    background-color: #8e48da !important;
+    color: white !important;
+}
+.detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.detail div{
+    width: 90%;
+    padding: 1rem 0;
+}
+.detail img{
+    width: 100%;
+}
 footer .redSocial{
     width: 40px;
     border-radius: 10px;
