@@ -3,8 +3,8 @@ const $checkbox = document.getElementById("contenedor-checkbox");
 const $inputSearch = document.getElementById("inputSearch");
 
 // CODIGO DE TARJETAS DINAMICAS
-    function createCard(obj){
-        return obj.reduce( ( acc, act ) =>{
+    function createCard(arrayObj){
+        return arrayObj.reduce( ( acc, act ) =>{
             return acc += `
                 <div class="card colorUno" style="width: 18rem;">
                     <img src="${act.image}" class="card-img-top p-2 cardImg" alt="food fair">
@@ -24,12 +24,12 @@ const $inputSearch = document.getElementById("inputSearch");
 
 /*  FUNCIONALIDAD DE LAS CATEGORIAS Y EL BUSCADOR */
 
-  function createCheckbox(obj) {
+  function createCheckbox(categoria) {
     return `
         <div class="form-check m-2">
-            <input class="form-check-input" type="checkbox" value="${obj}" id="${obj}">
-            <label class="form-check-label" for="${obj}">
-                ${obj}
+            <input class="form-check-input" type="checkbox" value="${categoria}" id="${categoria}">
+            <label class="form-check-label" for="${categoria}">
+                ${categoria}
             </label>
         </div>
     `
@@ -57,8 +57,11 @@ const $inputSearch = document.getElementById("inputSearch");
 
     /*filtra si arrayCategory tiene obj guardados */
     function filtercheckbox( array, arrayCategory ) {
-        if( category.length == 0 ) return array
-        return array.filter( obj => arrayCategory.includes( obj.category ))
+        if( array.length == 0 ){
+            return array
+        } else {
+            return array.filter( obj => arrayCategory.includes( obj.category ))
+        }
     }
 
     /*escuchador esperando el evento change del checkbox */
